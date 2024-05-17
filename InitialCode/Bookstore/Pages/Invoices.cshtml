@@ -1,0 +1,61 @@
+﻿@page
+@model InvoicesModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <th>#</th>
+            <th>Issued to</th>
+            <th>Issue date</th>
+            <th style="text-align: right">Status</th>
+            <th style="text-align: right">Total amount</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Invoices)
+            {
+                <tr class="invoice-@row.Style">
+                    <td>@row.Ordinal</td>
+                    <td>@row.Label</td>
+                    <td>@row.IssueDate</td>
+                    <td style="text-align: right">@row.Status</td>
+                    <td style="text-align: right">@row.Total</td>
+                    <td>
+                        @if (row.AllowPayment)
+                        {
+                            <form method="post">
+                                <input type="hidden" name="invoiceId" value="@row.Id" />
+                                <button type="submit" class="btn btn-primary">Paid</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <th colspan="3">Delinquent customers</th>
+        </thead>
+        <thead>
+            <th>#</th>
+            <th>Issued to</th>
+            <th>Total amount</th>
+        </thead>
+        <tbody>
+            @foreach (var notification in Model.DelinquentCustomers)
+            {
+                <tr>
+                    <td>@notification.Ordinal</td>
+                    <td>@notification.IssuedTo</td>
+                    <td>@notification.Amount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

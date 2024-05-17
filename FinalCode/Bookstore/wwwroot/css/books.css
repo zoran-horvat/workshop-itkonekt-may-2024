@@ -1,0 +1,19 @@
+a.citation {
+    text-decoration: none;
+    color: #000000;
+}
+
+span.citation-bookauthorsegment {
+    font-style: normal;
+    font-weight: normal;
+}
+
+span.citation-booktitlesegment {
+    font-style: italic;
+    font-weight: normal;
+}
+
+span.citation-textsegment {
+    font-style: normal;
+    font-weight: normal;
+}

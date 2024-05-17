@@ -1,0 +1,45 @@
+﻿@page "{initial?}"
+@using Bookstore.Domain.Models
+@model BooksModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@if (Model.PublishedAuthorInitials.Any())
+{
+    <div class="text-left">
+        <a class="btn btn-primary" href="/books">All</a>
+        @foreach (string initial in Model.PublishedAuthorInitials)
+        {
+            <a class="btn btn-primary" href="/books?initial=@initial.ToLower()">@initial.ToUpper()</a>
+        }
+    </div>
+}
+
+<div class="text-center">
+    <table class="table table-striped">
+        <thead>
+            <th scope="col">#</th>
+            <th scope="col" style="text-align: left">Author(s)</th>
+            <th scope="col" style="text-align: left">Title</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @foreach (var (book, ordinal) in Model.Books.Select((book, index) => (book, index + 1)))
+            {
+                <tr>
+                    <td>@ordinal</td>
+                    <td style="text-align: left">@foreach (CitationSegment segment in @book.authors)
+                        {<span class="citation-@segment.GetType().Name.ToLower()">@segment.Text</span>}
+                    </td>
+                    <td style="text-align: left">
+                        @foreach (CitationSegment segment in @book.title)
+                        {
+                            <span class="citation-@segment.GetType().Name.ToLower()">@segment.Text</span>
+                        }
+                    </td>
+                    <td><a class="btn btn-primary" href="/book/@book.id">View</a></td>
+                </tr>
+            }
+    </table>
+</div>
